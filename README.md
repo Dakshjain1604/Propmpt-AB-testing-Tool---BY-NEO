@@ -1,50 +1,102 @@
-# Neo Prompt Tester 🧪
+# 🧪 Neo Prompt Tester
 
-Scientific A/B Testing for AI Prompts - Compare two prompts with statistical rigor and beautiful reports.
+<div align="center">
 
-## Features
+**Scientific A/B Testing for AI Prompts - Compare prompts with statistical rigor and beautiful reports**
 
-- **Interactive & CLI Modes**: Run interactively or with command-line arguments
-- **Statistical Analysis**: T-tests, p-values, confidence intervals, effect sizes
-- **Quality Scoring**: LLM-as-judge evaluation (1-10 scale)
-- **Performance Metrics**: Response time, token count, cost analysis
-- **Beautiful Reports**: Self-contained HTML with Chart.js visualizations
-- **ROI Calculations**: Cost savings projections at scale
-- **Built-in Datasets**: Customer support, code tasks, creative prompts
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Quick Start
+[Features](#-features) • [Quick Start](#-quick-start) • [Examples](#-usage-examples) • [Documentation](#-documentation)
 
-### 1. Installation
+</div>
+
+---
+
+## 🎯 Overview
+
+**Neo Prompt Tester** is a scientific toolkit for evaluating and comparing AI prompts through rigorous A/B testing. Get statistically significant results with confidence intervals, effect sizes, and beautiful HTML reports - all from the command line.
+
+### Why Neo Prompt Tester?
+
+- **📊 Statistical Rigor** - T-tests, p-values, confidence intervals, and effect sizes
+- **🎨 Beautiful Reports** - Self-contained HTML with interactive Chart.js visualizations  
+- **⚡ Multi-Provider** - Support for Anthropic, OpenAI, and OpenRouter
+- **💰 ROI Analysis** - Cost savings projections at scale
+- **🔬 LLM-as-Judge** - Quality scoring on 1-10 scale with detailed reasoning
+- **📈 Performance Metrics** - Response time, token count, and cost tracking
+
+---
+
+## ✨ Features
+
+### Core Capabilities
+
+| Feature | Description |
+|---------|-------------|
+| **Interactive & CLI Modes** | Run interactively or with command-line arguments |
+| **Statistical Analysis** | Independent t-tests with p-values and effect sizes (Cohen's d) |
+| **Quality Scoring** | LLM-as-judge evaluation with 1-10 scoring |
+| **Performance Metrics** | Response time, token count, and cost per request |
+| **Beautiful Reports** | Self-contained HTML with Chart.js visualizations |
+| **ROI Calculations** | Cost savings projections at scale |
+| **Built-in Datasets** | Customer support, code tasks, creative prompts |
+
+### Supported Providers
+
+```
+🤖 Anthropic    → Claude models (default: claude-sonnet-4-20250514)
+🧠 OpenAI       → GPT models (default: gpt-4o)  
+🌐 OpenRouter   → Unified API for various models
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.8 or higher
+- API key from at least one provider (Anthropic/OpenAI/OpenRouter)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd neo-prompt-tester
+
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 2. Configure API Keys
-
-Create a `.env` file with your API key(s):
-
-```bash
+# Configure API keys
 cp .env.example .env
-# Edit .env and add your key(s):
-# ANTHROPIC_API_KEY=your_anthropic_key_here
-# OPENAI_API_KEY=your_openai_key_here
-# OPENROUTER_API_KEY=your_openrouter_key_here
+# Edit .env and add your API key(s)
 ```
 
-**Supported Providers:**
-- **Anthropic** (default): Claude models - `claude-sonnet-4-20250514`
-- **OpenAI**: GPT models - `gpt-4o` (default)
-- **OpenRouter**: Access to various models via unified API
-
-### 3. Run a Test
+### Your First Test
 
 **Interactive Mode:**
 ```bash
 python neo_test.py
 ```
 
-**Example 1: Testing Customer Support Tone (Anthropic - default):**
+**Command Line Mode:**
+```bash
+python neo_test.py \
+  --prompt-a "You are a helpful customer support agent. Provide a clear, professional response to: {input}. Be empathetic and actionable." \
+  --prompt-b "As a friendly support specialist, help with: {input}. Use a warm, conversational tone." \
+  --dataset customer_support \
+  --output ./results/tone_test.html
+```
+
+---
+
+## 📚 Usage Examples
+
+### Example 1: Testing Customer Support Tone (Anthropic)
+
 ```bash
 python neo_test.py \
   --prompt-a "You are a helpful customer support agent. Provide a clear, professional response to: {input}. Be empathetic, address the concern directly, and provide actionable next steps." \
@@ -53,7 +105,12 @@ python neo_test.py \
   --output ./results/tone_test.html
 ```
 
-**Example 2: Testing Response Length (OpenAI):**
+**What This Tests:** Professional vs. conversational tone in customer support
+
+---
+
+### Example 2: Testing Response Length (OpenAI)
+
 ```bash
 python neo_test.py \
   --provider openai \
@@ -62,7 +119,12 @@ python neo_test.py \
   --dataset customer_support
 ```
 
-**Example 3: Testing Code Generation Approaches (OpenRouter):**
+**What This Tests:** Concise vs. detailed responses for customer queries
+
+---
+
+### Example 3: Testing Code Generation Approaches (OpenRouter)
+
 ```bash
 python neo_test.py \
   --provider openrouter \
@@ -72,7 +134,12 @@ python neo_test.py \
   --dataset code_tasks
 ```
 
-**Example 4: Testing Empathy vs Efficiency:**
+**What This Tests:** Production-ready vs. simple code solutions
+
+---
+
+### Example 4: Testing Empathy vs Efficiency
+
 ```bash
 python neo_test.py \
   --prompt-a "A customer needs help with: {input}. Respond with empathy and understanding, then provide the best solution." \
@@ -80,7 +147,12 @@ python neo_test.py \
   --dataset customer_support
 ```
 
-**Example 5: Testing Structured vs Freeform Responses:**
+**What This Tests:** Empathetic approach vs. direct efficiency
+
+---
+
+### Example 5: Testing Structured vs Freeform Responses
+
 ```bash
 python neo_test.py \
   --provider openai \
@@ -90,7 +162,12 @@ python neo_test.py \
   --dataset code_tasks
 ```
 
-**Example 6: Testing Creative Writing Styles:**
+**What This Tests:** Structured formatting vs. natural prose
+
+---
+
+### Example 6: Testing Creative Writing Styles
+
 ```bash
 python neo_test.py \
   --prompt-a "Write a creative response to: {input}. Be imaginative, vivid, and engaging with rich descriptions." \
@@ -98,49 +175,13 @@ python neo_test.py \
   --dataset creative_prompts
 ```
 
-**Custom Model:**
-```bash
-python neo_test.py \
-  --provider openai \
-  --model "gpt-4-turbo" \
-  --prompt-a "Answer: {input}" \
-  --prompt-b "Response: {input}"
-```
+**What This Tests:** Descriptive vs. punchy creative writing
 
-## Usage
+---
 
-### Prompt Format
+## 📖 Documentation
 
-Prompts must include `{input}` placeholder for variable substitution:
-
-```
-Good: "Answer the following question concisely: {input}"
-Bad: "Answer the following question concisely"
-```
-
-### Built-in Datasets
-
-- `customer_support` - 20 customer service questions
-- `code_tasks` - 20 programming tasks
-- `creative_prompts` - 20 creative writing prompts
-
-### Custom Datasets
-
-Use JSON format with `input` field:
-
-```json
-[
-  {"input": "Your test case 1"},
-  {"input": "Your test case 2"}
-]
-```
-
-Then reference the file path:
-```bash
-python neo_test.py --dataset ./my_dataset.json
-```
-
-## Command-Line Options
+### Command-Line Options
 
 | Option | Description | Default |
 |--------|-------------|---------|
@@ -151,63 +192,45 @@ python neo_test.py --dataset ./my_dataset.json
 | `--provider` | API provider (anthropic/openai/openrouter) | `anthropic` |
 | `--model` | Model to use | Provider-specific default |
 
-## Prompt Engineering Tips
+### Prompt Format
 
-### What Makes a Good Test?
+Prompts **must** include `{input}` placeholder for variable substitution:
 
-**✅ Good A/B Tests:**
-- Test one variable at a time (tone, length, structure, specificity)
-- Use clear, measurable differences between prompts
-- Test hypotheses like "Does adding examples improve code quality?"
+```
+✅ Good: "Answer the following question concisely: {input}"
+❌ Bad:  "Answer the following question concisely"
+```
 
-**❌ Poor A/B Tests:**
-- Changing multiple variables at once
-- Vague or minimal differences between prompts
-- Testing "Answer: {input}" vs "Response: {input}" (no meaningful difference)
+### Built-in Datasets
 
-### Common Test Scenarios
+| Dataset | Description | Size |
+|---------|-------------|------|
+| `customer_support` | Customer service questions | 20 cases |
+| `code_tasks` | Programming tasks | 20 cases |
+| `creative_prompts` | Creative writing prompts | 20 cases |
 
-1. **Tone Testing**: Professional vs Casual, Empathetic vs Direct
-2. **Length Testing**: Concise vs Detailed, Bullet points vs Paragraphs
-3. **Structure Testing**: Freeform vs Formatted, Step-by-step vs Summary
-4. **Specificity Testing**: General instructions vs Detailed requirements
-5. **Context Testing**: Minimal context vs Rich background information
-6. **Role Testing**: Different persona descriptions or expertise levels
+### Custom Datasets
 
-## Output
+Create a JSON file with `input` field:
 
-The tool generates:
+```json
+[
+  {"input": "Your test case 1"},
+  {"input": "Your test case 2"},
+  {"input": "Your test case 3"}
+]
+```
 
-1. **Terminal Output**: Color-coded results with progress bar
-2. **HTML Report**: Self-contained file with:
-   - Winner announcement with statistical significance
-   - Metrics comparison table
-   - Interactive Chart.js visualizations
-   - Quality scores line chart
-   - Detailed test results (expandable)
-   - ROI analysis with cost savings
-   - Export to PDF and Markdown
+Then reference the file:
+```bash
+python neo_test.py --dataset ./my_dataset.json
+```
 
-## Statistical Analysis
+---
 
-The tool performs:
+## 📊 Output & Reports
 
-- **Independent samples t-test** to compare quality scores
-- **P-value calculation** (significance threshold: 0.05)
-- **Effect size** (Cohen's d)
-- **Confidence intervals** (95%)
-- **Percentage improvement** calculations
-
-## Metrics Tracked
-
-For each prompt:
-
-- **Quality Score**: 1-10 rating by Claude (LLM-as-judge)
-- **Response Time**: Seconds per request
-- **Token Count**: Input + output tokens
-- **Cost**: Based on Anthropic pricing (input: $3/M, output: $15/M)
-
-## Example Results
+### Terminal Output
 
 ```
 📊 Test Results Summary
@@ -226,7 +249,68 @@ p-value: 0.0255
 Quality Improvement: 8.06%
 ```
 
-## Project Structure
+### HTML Report
+
+The generated HTML report includes:
+
+- **Winner Announcement** - Statistical significance and confidence level
+- **Metrics Comparison Table** - Side-by-side performance comparison
+- **Interactive Visualizations** - Chart.js graphs for quality scores
+- **Detailed Results** - Expandable test case details
+- **ROI Analysis** - Cost savings projections at scale
+- **Export Options** - PDF and Markdown export buttons
+
+---
+
+## 🧪 Statistical Analysis
+
+### Metrics Tracked
+
+For each prompt:
+
+- **Quality Score**: 1-10 rating by LLM-as-judge (Claude)
+- **Response Time**: Seconds per request
+- **Token Count**: Input + output tokens
+- **Cost**: Based on provider pricing
+
+### Statistical Tests
+
+The tool performs:
+
+- **Independent samples t-test** - Compares quality scores between prompts
+- **P-value calculation** - Significance threshold: 0.05
+- **Effect size (Cohen's d)** - Measures practical significance
+- **Confidence intervals** - 95% confidence bounds
+- **Percentage improvement** - Relative performance gain
+
+---
+
+## 💡 Prompt Engineering Tips
+
+### What Makes a Good Test?
+
+**✅ Good A/B Tests:**
+- Test one variable at a time (tone, length, structure, specificity)
+- Use clear, measurable differences between prompts
+- Test hypotheses like "Does adding examples improve code quality?"
+
+**❌ Poor A/B Tests:**
+- Changing multiple variables at once
+- Vague or minimal differences between prompts
+- Testing "Answer: {input}" vs "Response: {input}" (no meaningful difference)
+
+### Common Test Scenarios
+
+1. **Tone Testing** - Professional vs Casual, Empathetic vs Direct
+2. **Length Testing** - Concise vs Detailed, Bullet points vs Paragraphs
+3. **Structure Testing** - Freeform vs Formatted, Step-by-step vs Summary
+4. **Specificity Testing** - General instructions vs Detailed requirements
+5. **Context Testing** - Minimal context vs Rich background information
+6. **Role Testing** - Different persona descriptions or expertise levels
+
+---
+
+## 📁 Project Structure
 
 ```
 neo-prompt-tester/
@@ -245,20 +329,56 @@ neo-prompt-tester/
 └── README.md
 ```
 
-## Requirements
+---
 
-- Python 3.8+
-- API key (Anthropic/OpenAI/OpenRouter)
-- Dependencies (see requirements.txt)
+## 🤝 Contributing
 
-## License
+Contributions are welcome! Please follow these guidelines:
 
-MIT
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Contributing
+Please ensure:
+- All tests pass
+- Code follows project style guidelines
+- New features include documentation
+- Update README.md if needed
 
-Contributions welcome! Please open an issue or PR.
+---
 
-## Support
+## 📄 License
 
-For issues or questions, please open a GitHub issue.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+Built with:
+- **Anthropic Claude** - LLM-as-judge evaluation
+- **OpenAI GPT** - Alternative testing provider
+- **Chart.js** - Beautiful interactive visualizations
+- **Python** - Core implementation language
+
+---
+
+## 📞 Support
+
+For issues or questions:
+
+- 🐛 **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
+- 📧 **Email**: support@example.com
+
+---
+
+<div align="center">
+
+**⭐ Star this repo if you find it helpful!**
+
+*Scientific A/B testing for the age of AI*
+
+</div>
