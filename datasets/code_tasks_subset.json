@@ -1,0 +1,17 @@
+[
+  {
+    "input": "Write a Python function that reverses a string without using built-in reverse methods."
+  },
+  {
+    "input": "Explain what a closure is in JavaScript with an example."
+  },
+  {
+    "input": "How do you find the second largest number in an array?"
+  },
+  {
+    "input": "Write a SQL query to find all employees who earn more than their managers."
+  },
+  {
+    "input": "What's the difference between == and === in JavaScript?"
+  }
+]

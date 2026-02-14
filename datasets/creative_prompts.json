@@ -1,0 +1,22 @@
+[
+  {"input": "Write a haiku about artificial intelligence."},
+  {"input": "Describe a sunset on Mars in three sentences."},
+  {"input": "Create a catchy tagline for an eco-friendly water bottle."},
+  {"input": "Write a short story opening about a time traveler's mistake."},
+  {"input": "Describe the taste of coffee to someone who has never tried it."},
+  {"input": "Write a limerick about a programmer debugging code."},
+  {"input": "Create a product description for invisible socks."},
+  {"input": "Write dialogue between a robot and a houseplant."},
+  {"input": "Describe happiness using only metaphors related to weather."},
+  {"input": "Write an elevator pitch for a restaurant on the moon."},
+  {"input": "Create a children's book title about a brave potato."},
+  {"input": "Describe the smell of rain using synesthesia."},
+  {"input": "Write a fortune cookie message for an entrepreneur."},
+  {"input": "Create a band name and album title for a jazz-metal fusion group."},
+  {"input": "Write a two-sentence horror story about smart home devices."},
+  {"input": "Describe loneliness from the perspective of a lighthouse."},
+  {"input": "Create a slogan for a company that sells bottled silence."},
+  {"input": "Write a poem about procrastination in exactly 20 words."},
+  {"input": "Describe the color blue to someone who was born blind."},
+  {"input": "Write an obituary for the last typewriter on Earth."}
+]

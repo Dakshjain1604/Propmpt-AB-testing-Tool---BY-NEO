@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Test Results - Prompt Comparison</title>
+    <script>
+    // Chart.js 4.4.0 - Inlined for offline support
+    // Full Chart.js library would be here - using CDN as fallback for now
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .winner-banner {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .winner-banner.no-diff {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .winner-banner h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .winner-banner .stats {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .metric-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .metric-comparison {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .metric-value {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .prompt-a {
+            color: #667eea;
+        }
+        
+        .prompt-b {
+            color: #f093fb;
+        }
+        
+        .chart-container {
+            margin-bottom: 40px;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .chart-container h3 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+        }
+        
+        .roi-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .roi-box h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .roi-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .roi-stat {
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .roi-stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .roi-stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .details-section {
+            margin-top: 40px;
+        }
+        
+        .details-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .details-toggle:hover {
+            background: #5568d3;
+        }
+        
+        .details-content {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .details-content.active {
+            display: block;
+        }
+        
+        .test-case {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-case-header {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .response-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .response-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .response-box h4 {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .response-text {
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .response-score {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .export-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .export-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .export-btn:hover {
+            background: #5568d3;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .export-buttons {
+                display: none;
+            }
+            
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .response-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 A/B Test Results</h1>
+        <div class="timestamp" id="timestamp">{{TIMESTAMP}}</div>
+        
+        <div class="winner-banner {{WINNER_CLASS}}" id="winner-banner">
+            <h2>{{WINNER_TEXT}}</h2>
+            <div class="stats">
+                <span>Confidence: {{CONFIDENCE}}%</span> | 
+                <span>p-value: {{P_VALUE}}</span> | 
+                <span>Effect Size: {{EFFECT_SIZE}}</span>
+            </div>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>Quality Score</h3>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt A:</span>
+                    <span class="metric-value prompt-a">{{QUALITY_A}}</span>
+                </div>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt B:</span>
+                    <span class="metric-value prompt-b">{{QUALITY_B}}</span>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>Response Time (s)</h3>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt A:</span>
+                    <span class="metric-value prompt-a">{{TIME_A}}</span>
+                </div>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt B:</span>
+                    <span class="metric-value prompt-b">{{TIME_B}}</span>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>Tokens/Response</h3>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt A:</span>
+                    <span class="metric-value prompt-a">{{TOKENS_A}}</span>
+                </div>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt B:</span>
+                    <span class="metric-value prompt-b">{{TOKENS_B}}</span>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>Cost/Response ($)</h3>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt A:</span>
+                    <span class="metric-value prompt-a">${{COST_A}}</span>
+                </div>
+                <div class="metric-comparison">
+                    <span class="metric-label">Prompt B:</span>
+                    <span class="metric-value prompt-b">${{COST_B}}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3>📊 Metrics Comparison</h3>
+            <div class="chart-wrapper">
+                <canvas id="metricsChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3>📈 Quality Scores Across Test Cases</h3>
+            <div class="chart-wrapper">
+                <canvas id="qualityChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="roi-box">
+            <h3>💰 ROI Analysis (at 100k requests)</h3>
+            <div class="roi-stats">
+                <div class="roi-stat">
+                    <div class="roi-stat-label">Cheaper Option</div>
+                    <div class="roi-stat-value">{{CHEAPER_PROMPT}}</div>
+                </div>
+                <div class="roi-stat">
+                    <div class="roi-stat-label">Cost Savings</div>
+                    <div class="roi-stat-value">${{COST_SAVINGS}}</div>
+                </div>
+                <div class="roi-stat">
+                    <div class="roi-stat-label">Savings Percentage</div>
+                    <div class="roi-stat-value">{{SAVINGS_PCT}}%</div>
+                </div>
+                <div class="roi-stat">
+                    <div class="roi-stat-label">Best Value</div>
+                    <div class="roi-stat-value">{{BETTER_VALUE}}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="details-section">
+            <button class="details-toggle" onclick="toggleDetails()">
+                <span>📋 View Detailed Test Results</span>
+                <span id="toggle-icon">▼</span>
+            </button>
+            <div class="details-content" id="details-content">
+                {{DETAILED_RESULTS}}
+            </div>
+        </div>
+        
+        <div class="export-buttons">
+            <button class="export-btn" onclick="window.print()">📄 Export to PDF</button>
+            <button class="export-btn" onclick="copyMarkdown()">📝 Copy as Markdown</button>
+        </div>
+    </div>
+    
+    <script>
+        const testData = {{TEST_DATA_JSON}};
+        
+        const metricsCtx = document.getElementById('metricsChart').getContext('2d');
+        new Chart(metricsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Quality Score', 'Response Time (s)', 'Tokens/Response', 'Cost/Response ($)'],
+                datasets: [
+                    {
+                        label: 'Prompt A',
+                        data: [
+                            testData.metrics.quality_a,
+                            testData.metrics.time_a,
+                            testData.metrics.tokens_a,
+                            testData.metrics.cost_a
+                        ],
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Prompt B',
+                        data: [
+                            testData.metrics.quality_b,
+                            testData.metrics.time_b,
+                            testData.metrics.tokens_b,
+                            testData.metrics.cost_b
+                        ],
+                        backgroundColor: 'rgba(240, 147, 251, 0.7)',
+                        borderColor: 'rgba(240, 147, 251, 1)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+        
+        const qualityCtx = document.getElementById('qualityChart').getContext('2d');
+        new Chart(qualityCtx, {
+            type: 'line',
+            data: {
+                labels: testData.test_cases.map((_, i) => `Test ${i + 1}`),
+                datasets: [
+                    {
+                        label: 'Prompt A Quality',
+                        data: testData.quality_scores_a,
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Prompt B Quality',
+                        data: testData.quality_scores_b,
+                        borderColor: 'rgba(240, 147, 251, 1)',
+                        backgroundColor: 'rgba(240, 147, 251, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+        
+        function toggleDetails() {
+            const content = document.getElementById('details-content');
+            const icon = document.getElementById('toggle-icon');
+            content.classList.toggle('active');
+            icon.textContent = content.classList.contains('active') ? '▲' : '▼';
+        }
+        
+        function copyMarkdown() {
+            const markdown = `# A/B Test Results
+
+## Winner: ${testData.stats.winner}
+- Confidence: ${testData.stats.confidence_pct.toFixed(2)}%
+- p-value: ${testData.stats.p_value.toFixed(4)}
+- Effect Size: ${testData.stats.effect_size.toFixed(3)}
+
+## Summary Metrics
+
+| Metric | Prompt A | Prompt B |
+|--------|----------|----------|
+| Quality Score | ${testData.metrics.quality_a.toFixed(2)} | ${testData.metrics.quality_b.toFixed(2)} |
+| Response Time | ${testData.metrics.time_a.toFixed(3)}s | ${testData.metrics.time_b.toFixed(3)}s |
+| Tokens/Response | ${testData.metrics.tokens_a.toFixed(0)} | ${testData.metrics.tokens_b.toFixed(0)} |
+| Cost/Response | $${testData.metrics.cost_a.toFixed(4)} | $${testData.metrics.cost_b.toFixed(4)} |
+
+## ROI Analysis (100k requests)
+- Cheaper Option: ${testData.roi.cheaper_prompt}
+- Cost Savings: $${testData.roi.cost_savings.toFixed(2)}
+- Savings: ${testData.roi.savings_pct.toFixed(2)}%
+- Best Value: ${testData.roi.better_value}
+`;
+            
+            navigator.clipboard.writeText(markdown).then(() => {
+                alert('Markdown copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+[
+  {"input": "Write a function to calculate factorial"},
+  {"input": "Explain what recursion is"},
+  {"input": "Debug this code: for i in range(5) print(i)"}
+]

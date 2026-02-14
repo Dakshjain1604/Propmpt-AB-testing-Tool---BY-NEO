@@ -1,0 +1,22 @@
+[
+  {"input": "Write a Python function that reverses a string without using built-in reverse methods."},
+  {"input": "Explain what a closure is in JavaScript with an example."},
+  {"input": "How do you find the second largest number in an array?"},
+  {"input": "Write a SQL query to find all employees who earn more than their managers."},
+  {"input": "What's the difference between == and === in JavaScript?"},
+  {"input": "Implement a function to check if a string is a palindrome."},
+  {"input": "How do you handle null pointer exceptions in Java?"},
+  {"input": "Write a function that merges two sorted arrays into one sorted array."},
+  {"input": "Explain the concept of dependency injection with a simple example."},
+  {"input": "How would you debug a memory leak in a Node.js application?"},
+  {"input": "Write a regular expression to validate email addresses."},
+  {"input": "What are the differences between abstract classes and interfaces?"},
+  {"input": "Implement a binary search algorithm in Python."},
+  {"input": "How do you prevent SQL injection attacks?"},
+  {"input": "Explain the difference between GET and POST HTTP methods."},
+  {"input": "Write a function that removes duplicates from an array."},
+  {"input": "What is the time complexity of quicksort in the worst case?"},
+  {"input": "How do you implement a singleton pattern in Python?"},
+  {"input": "Explain what RESTful API design principles are."},
+  {"input": "Write a function that converts a decimal number to binary."}
+]
